@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { Cart, CartDocument } from 'src/schema/cart.schema';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { RequestUserDto } from 'src/auth/dto/request-user.dto';
@@ -40,7 +40,57 @@ export class CartService {
   async getAllItems(userRequest: RequestUserDto) {
     await this.checkUser(userRequest);
 
-    return await this.cartModel.find({ user: userRequest.userId }).exec();
+    const cartItems = await this.cartModel.aggregate([
+      {
+        $match: {
+          user: new mongoose.Types.ObjectId(userRequest.userId),
+        },
+      },
+      {
+        $lookup: {
+          from: 'products',
+          localField: 'product',
+          foreignField: '_id',
+          as: 'productDetails',
+        },
+      },
+      {
+        $unwind: '$productDetails',
+      },
+      {
+        $project: {
+          _id: 0,
+          user: 0,
+          product: 0,
+          createdAt: 0,
+          updatedAt: 0,
+          'productDetails._id': 0,
+        },
+      },
+      {
+        $addFields: {
+          totalPrice: {
+            $multiply: ['$totalItems', '$productDetails.price'],
+          },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          cartItems: { $push: '$$ROOT' },
+          total: { $sum: '$totalPrice' },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          cartItems: 1,
+          total: 1,
+        },
+      },
+    ]);
+
+    return cartItems[0] || { cartItems: [], total: 0 };
   }
 
   async editCartItem(
@@ -97,11 +147,26 @@ export class CartService {
   }
 
   async getCartItemByProduct(userRequest: RequestUserDto, productId: string) {
-    const cart = await this.cartModel.findOne({
-      product: productId,
-      user: userRequest.userId,
-    });
-
-    return cart;
+    const cart = await this.cartModel.aggregate([
+      {
+        $match: {
+          product: new mongoose.Types.ObjectId(productId),
+          user: new mongoose.Types.ObjectId(userRequest.userId),
+        },
+      },
+      {
+        $lookup: {
+          from: 'products',
+          localField: 'product',
+          foreignField: '_id',
+          as: 'productDetails',
+        },
+      },
+      {
+        $unwind: '$productDetails',
+      },
+    ]);
+    console.log(userRequest.userId, productId);
+    return cart[0];
   }
 }
