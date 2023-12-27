@@ -8,6 +8,7 @@ import { ProductModule } from './product/product.module';
 import configuration from './config/configuration';
 import { JwtModule } from '@nestjs/jwt';
 import { CartModule } from './cart/cart.module';
+import { OrderModule } from './order/order.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { CartModule } from './cart/cart.module';
     AuthModule,
     ProductModule,
     CartModule,
+    OrderModule,
   ],
   controllers: [AppController],
   providers: [AppService],
