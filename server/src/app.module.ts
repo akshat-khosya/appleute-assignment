@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { ProductModule } from './product/product.module';
 import configuration from './config/configuration';
 import { JwtModule } from '@nestjs/jwt';
+import { CartModule } from './cart/cart.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { JwtModule } from '@nestjs/jwt';
     MongodbModule,
     AuthModule,
     ProductModule,
+    CartModule,
   ],
   controllers: [AppController],
   providers: [AppService],
