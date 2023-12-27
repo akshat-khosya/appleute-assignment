@@ -12,6 +12,7 @@ import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { SignInUserDto } from './dto/signin-user.dto';
+import { RequestUserDto } from './dto/request-user.dto';
 @Injectable()
 export class AuthService {
   constructor(
@@ -49,5 +50,23 @@ export class AuthService {
     return {
       access_token: await this.jwtService.signAsync(payload),
     };
+  }
+
+  async getProfile(requestUser: RequestUserDto) {
+    const user = await this.userModel
+      .findById(requestUser.userId)
+      .select('name email')
+      .exec();
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return { user };
+  }
+  async getUser(requestUser: RequestUserDto) {
+    const user = await this.userModel.findById(requestUser.userId);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return { user };
   }
 }
