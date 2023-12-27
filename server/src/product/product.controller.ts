@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { ProductService } from './product.service';
 import { AuthGuard } from 'src/auth/auth.guard';
@@ -21,5 +21,29 @@ export class ProductController {
     );
 
     await Promise.all(createProductPromises);
+  }
+
+  @UseGuards(AuthGuard)
+  @Get()
+  async getProducts(
+    @Query('page') page?: number,
+    @Query('pageSize') pageSize?: number,
+    @Query('category') category?: string,
+  ) {
+    return await this.productService.getProducts(page, pageSize, category);
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('details')
+  async getProductDetails(@Query('productId') productId: string) {
+    const product = await this.productService.getProductById(productId);
+    return product;
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('categories')
+  async getUniqueCategories() {
+    const categories = await this.productService.getUniqueCategories();
+    return categories;
   }
 }

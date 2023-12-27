@@ -17,4 +17,25 @@ export class ProductService {
       createdAt: new Date(),
     });
   }
+
+  async getProducts(page: number, pageSize: number, category?: string) {
+    page = parseInt(String(page), 10) || 1;
+    pageSize = parseInt(String(pageSize), 10) || 10;
+    const query = category ? { category } : {};
+    const products = await this.productModel
+      .find(query)
+      .skip((page - 1) * pageSize)
+      .limit(pageSize)
+      .exec();
+    return { products, skip: (page - 1) * pageSize, limit: pageSize };
+  }
+
+  async getProductById(productId: string): Promise<Product | null> {
+    return this.productModel.findById(productId).exec();
+  }
+
+  async getUniqueCategories(): Promise<string[]> {
+    const categories = await this.productModel.distinct('category').exec();
+    return categories;
+  }
 }
