@@ -11,6 +11,7 @@ import { AuthService } from './auth.service';
 import { SignInUserDto } from './dto/signin-user.dto';
 import { AuthGuard } from './auth.guard';
 import { RequestUserDto } from './dto/request-user.dto';
+import { AdminGuard } from './admin.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -32,5 +33,11 @@ export class AuthController {
   async autoLogin(@Request() req) {
     const payload: RequestUserDto = req.user;
     return await this.authService.getProfile(payload);
+  }
+
+  @UseGuards(AuthGuard, AdminGuard)
+  @Get('all-users')
+  async getAllUsers() {
+    return await this.authService.getAllUser();
   }
 }

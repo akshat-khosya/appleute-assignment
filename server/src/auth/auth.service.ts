@@ -69,4 +69,9 @@ export class AuthService {
     }
     return { user };
   }
+
+  async getAllUser() {
+    const users = await this.userModel.find({}).select('name email').exec();
+    return users;
+  }
 }
