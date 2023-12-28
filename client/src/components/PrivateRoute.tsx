@@ -1,19 +1,17 @@
-import React, { useContext } from "react";
+import React from "react";
 import Login from "../pages/Login";
-import GlobalContext from "../context/GlobalContext";
+import useStore from "../hooks/store";
 
 interface ProtectedRouteProps {
-    Component: React.ComponentType<unknown>;
+	Component: React.ComponentType<unknown>;
 }
 const PrivateRoute: React.FC<ProtectedRouteProps> = ({ Component }) => {
-    const { isAuthenticated } = useContext(GlobalContext);
+	const { isAuthenticated } = useStore();
 
-    if (!isAuthenticated) {
-        return <Login />;
-    }
-    return (
-        <Component />
-    );
+	if (!isAuthenticated) {
+		return <Login />;
+	}
+	return <Component />;
 };
 
 export default PrivateRoute;

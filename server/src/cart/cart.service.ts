@@ -61,7 +61,6 @@ export class CartService {
         $project: {
           _id: 0,
           user: 0,
-          product: 0,
           createdAt: 0,
           updatedAt: 0,
           'productDetails._id': 0,
@@ -72,6 +71,7 @@ export class CartService {
           totalPrice: {
             $multiply: ['$totalItems', '$productDetails.price'],
           },
+          productId: '$productDetails._id', // Add this line to include product ID
         },
       },
       {

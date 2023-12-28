@@ -1,8 +1,8 @@
 import { Button, CircularProgress, IconButton, Snackbar } from "@mui/material";
-import React, { useState, SyntheticEvent, useContext } from "react";
+import React, { useState, SyntheticEvent } from "react";
 import { Link } from "react-router-dom";
 import CloseIcon from '@mui/icons-material/Close';
-import GlobalContext from "../context/GlobalContext";
+import http from "../utils/http";
 
 const RegisterForm = () => {
 
@@ -10,7 +10,6 @@ const RegisterForm = () => {
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState("");
-    const { axiosInstance } = useContext(GlobalContext);
     const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
             return;
@@ -31,7 +30,7 @@ const RegisterForm = () => {
         setLoading(true);
         console.log(data);
         try {
-            await axiosInstance.post("/auth", data);
+            await http.post("/auth", data);
             setOpen(true);
             setLoading(false);
             setData({});

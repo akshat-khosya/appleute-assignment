@@ -1,13 +1,13 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import GlobalContext from "../context/GlobalContext";
+import useStore from "../hooks/store";
 
 interface GuestRouteProps {
     Component: React.ComponentType<unknown>;
 }
 const GuestRoute: React.FC<GuestRouteProps> = ({ Component }) => {
     const navigate = useNavigate();
-    const { isAuthenticated } = useContext(GlobalContext);
+    const { isAuthenticated } = useStore();
 
     useEffect(() => {
         if (isAuthenticated) {

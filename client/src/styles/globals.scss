@@ -1,0 +1,25 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    transition: all 0.2s ease-in-out;
+}
+
+body {
+    position: relative;
+}
+
+::-webkit-scrollbar {
+	width: 4px;
+	height: 4px;
+	background: transparent;
+
+	&-thumb {
+		background: rgba(0, 0, 0, 0.1);
+		border-radius: 500px;
+	}
+
+	&-track {
+		background: transparent;
+	}
+}

@@ -1,18 +1,19 @@
-import axios from "axios";
 import { useState } from "react";
+import { IProductCard } from "../pages/Dashboard";
 
 export const useContextData = () => {
-  const [isAuthenticated, setAuthenticates] = useState<boolean>(false);
-  const axiosInstance = axios.create({
-    baseURL: "http://localhost:4000",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+	const [isAuthenticated, setAuthenticated] = useState<boolean>(false);
 
-  return {
-    isAuthenticated,
-    setAuthenticates,
-    axiosInstance,
-  };
+	const [cart, setCart] = useState<IProductCard[]>([]);
+
+	const handleCart = (products: IProductCard[]) => {
+		setCart(products);
+	};
+
+	return {
+		isAuthenticated,
+		setAuthenticated,
+		cart,
+		setCart: handleCart,
+	};
 };

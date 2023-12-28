@@ -1,15 +1,17 @@
-import { AxiosInstance } from "axios";
 import { createContext } from "react";
+import { IProductCard } from "../pages/Dashboard";
 
 interface GlobalContextValue {
-  isAuthenticated: boolean;
-  setAuthenticates: (auth: boolean) => void;
-  axiosInstance: AxiosInstance;
+	isAuthenticated: boolean;
+	setAuthenticated: (auth: boolean) => void;
+	cart: IProductCard[];
+	setCart: (_: IProductCard[]) => void;
 }
 const GlobalContext = createContext<GlobalContextValue>({
-  isAuthenticated: false,
-  setAuthenticates: () => {},
-  axiosInstance: {} as AxiosInstance,
+	isAuthenticated: false,
+	setAuthenticated: () => { },
+	cart: [],
+	setCart: () => { },
 });
 
 export default GlobalContext;

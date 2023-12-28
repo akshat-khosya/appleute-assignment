@@ -1,0 +1,152 @@
+@import './mixins';
+
+.dashboard {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px 5%;
+
+    &-header {
+        width: 100%;
+        text-align: center;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &-container {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+
+        @include responsive(phone) {
+            grid-template-columns: repeat(1, 1fr);
+        }
+    }
+}
+
+.card {
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    flex-flow: row;
+    overflow: hidden;
+
+    img {
+        width: 40%;
+        flex: 0 1 auto;
+        object-fit: cover;
+    }
+
+    &-content {
+        width: 60%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+        padding: 16px;
+        overflow-y: auto;
+    }
+
+    &-buttons {
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 12px;
+    }
+
+    &-btn {
+        all: unset;
+        width: 28px;
+        height: 28px;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        padding: 2px;
+        font-size: 24px;
+        border-radius: 500px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+}
+
+.icon-btn {
+    all: unset;
+    width: 48px;
+    height: 48px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4px;
+    border-radius: 500px;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+}
+
+.cart {
+    &-cover {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 3;
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    &-pane {
+        position: fixed;
+        top: 0;
+        right: 0;
+        z-index: 10;
+        width: 40vw;
+        height: 100vh;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        flex-direction: column;
+        gap: 16px;
+        padding: 24px;
+        background-color: #fff;
+        overflow-y: auto;
+
+        @include responsive(phone) {
+            width: 100vw;
+        }
+    }
+
+    &-header, &-footer {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    &-footer {
+        position: absolute;
+        left: 0;
+        z-index: 11;
+        bottom: 0;
+        background-color: #fff;
+        padding: 24px;
+    }
+
+    &-body {
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        flex-direction: column;
+        gap: 16px;
+    }
+}
