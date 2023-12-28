@@ -1,26 +1,26 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter } from "react-router-dom";
+
+import GlobalContext from "./context/GlobalContext";
+import { useContextData } from "./context/useContext";
+
+import ScrollToTop from './components/ScrollToTop';
+
+import RoutesWrapper from './pages/Routes';
 
 function App() {
+  const context = useContextData();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    < >
+      <GlobalContext.Provider value={context}>
+        <BrowserRouter>
+          <ScrollToTop />
+          <RoutesWrapper />
+        </BrowserRouter>
+      </GlobalContext.Provider>
+    </>
   );
 }
 
 export default App;
+
