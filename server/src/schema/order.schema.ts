@@ -6,10 +6,15 @@ export type OrderDocument = Order & Document;
 @Schema()
 export class Order {
   @Prop({
-    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }],
+    type: [
+      {
+        productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
+        itemCount: Number,
+      },
+    ],
     required: true,
   })
-  products: mongoose.Types.ObjectId[];
+  products: { productId: mongoose.Types.ObjectId; itemCount: number }[];
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
   user: mongoose.Types.ObjectId;
